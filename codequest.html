@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeQuest — Learn to Code by Playing</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{
+  background:#060d1c;
+  background-image:
+    linear-gradient(rgba(79,172,254,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(79,172,254,.04) 1px,transparent 1px);
+  background-size:52px 52px;
+  color:#eaf1fc;font-family:'Syne','Segoe UI',system-ui,sans-serif;
+  display:flex;justify-content:center;
+  padding:20px 16px 52px;min-height:100vh;
+}
+#app{width:100%;max-width:640px}
+/* HOME */
+.home{display:flex;flex-direction:column;gap:22px;padding-top:14px}
+.brand{text-align:center;padding:4px 0 8px}
+.brand-name{
+  font-size:2.7rem;font-weight:800;letter-spacing:-1.5px;line-height:1;
+  background:linear-gradient(118deg,#4facfe 10%,#00f2fe 90%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.brand-sub{margin-top:8px;font-size:.67rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#273e5a}
+.sh{font-size:.63rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#273e5a;margin-bottom:9px;display:flex;align-items:center;gap:8px}
+.sh-badge{
+  font-size:.58rem;font-weight:700;letter-spacing:1px;text-transform:none;
+  background:rgba(79,172,254,.15);color:#4facfe;
+  padding:2px 8px;border-radius:99px;
+}
+.sh-hint{font-size:.58rem;font-weight:400;color:#273e5a;text-transform:none;letter-spacing:0}
+.lg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.lg-btn,.df-btn{
+  background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.07);
+  border-radius:12px;cursor:pointer;transition:all .14s;color:#eaf1fc;font-family:inherit;
+}
+.lg-btn{padding:14px 8px;text-align:center}
+.lg-btn:hover,.df-btn:hover{background:rgba(79,172,254,.08);border-color:rgba(79,172,254,.24)}
+.lg-btn.on,.df-btn.on{background:rgba(79,172,254,.13);border-color:#4facfe;box-shadow:0 0 18px rgba(79,172,254,.18)}
+.lg-em{font-size:1.4rem;display:block;margin-bottom:5px}
+.lg-nm{font-size:.72rem;font-weight:700}
+/* TOPICS */
+@keyframes topicFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.topics-wrap{animation:topicFade .25s ease}
+.topic-grid{display:flex;flex-wrap:wrap;gap:7px}
+.topic-btn{
+  background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.07);
+  border-radius:99px;padding:7px 14px;cursor:pointer;
+  color:#4e6a8a;font-family:inherit;font-size:.72rem;font-weight:700;
+  transition:all .14s;
+}
+.topic-btn:hover{background:rgba(79,172,254,.08);border-color:rgba(79,172,254,.24);color:#7ab8f5}
+.topic-btn.on{background:rgba(79,172,254,.14);border-color:#4facfe;color:#4facfe;box-shadow:0 0 10px rgba(79,172,254,.14)}
+.clear-btn{
+  background:none;border:none;color:#2e4a6b;font-family:inherit;
+  font-size:.62rem;font-weight:700;cursor:pointer;padding:4px 6px;text-decoration:underline;
+  text-underline-offset:2px;letter-spacing:.5px;
+}
+.clear-btn:hover{color:#4facfe}
+.df-row{display:flex;gap:8px}
+.df-btn{flex:1;padding:14px 10px;text-align:center}
+.df-ic{font-size:1.1rem;display:block;margin-bottom:3px}
+.df-nm{font-size:.77rem;font-weight:700;display:block}
+.df-ds{font-size:.62rem;color:#273e5a;margin-top:2px}
+.tip{
+  background:rgba(79,172,254,.04);border:1px solid rgba(79,172,254,.1);
+  border-radius:11px;padding:12px 15px;font-size:.74rem;color:#3d5a80;line-height:1.7;
+}
+.tip b{color:#4facfe}
+.go-btn{
+  width:100%;padding:16px;
+  background:linear-gradient(118deg,#4facfe,#00f2fe);
+  border:none;border-radius:13px;color:#030b16;
+  font-family:inherit;font-size:.9rem;font-weight:800;letter-spacing:1.5px;
+  cursor:pointer;box-shadow:0 4px 20px rgba(79,172,254,.28);
+  transition:transform .14s,box-shadow .14s;
+}
+.go-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(79,172,254,.38)}
+.go-btn:active{transform:translateY(0)}
+/* GAME */
+.game{display:flex;flex-direction:column;gap:13px;padding-top:6px}
+.tbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:11px 17px;
+  background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.055);border-radius:13px;
+}
+.hts{display:flex;gap:3px;font-size:.92rem}
+.pts{font-size:1.15rem;font-weight:800;color:#4facfe}
+.stk{
+  font-size:.71rem;font-weight:700;color:#fbbf24;
+  background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.18);
+  padding:3px 10px;border-radius:99px;display:none;
+}
+.prg-bar{background:rgba(255,255,255,.055);border-radius:99px;height:5px;overflow:hidden}
+.prg-fill{height:100%;background:linear-gradient(90deg,#4facfe,#00f2fe);border-radius:99px;transition:width .55s cubic-bezier(.4,0,.2,1);width:0%}
+.prg-lbl{font-size:.6rem;color:#273e5a;font-weight:700;margin-top:5px;text-align:right;letter-spacing:1px}
+.card{background:#0b1826;border:1px solid rgba(255,255,255,.065);border-radius:17px;padding:22px;min-height:180px}
+@keyframes cardIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.q-inner{animation:cardIn .28s ease}
+.qt{font-size:.95rem;font-weight:600;line-height:1.72;color:#d4e3f8;margin-bottom:13px}
+.cb{
+  background:#010810;border:1px solid rgba(79,172,254,.1);
+  border-left:3px solid rgba(79,172,254,.32);border-radius:10px;
+  padding:13px 15px;font-family:'JetBrains Mono','Consolas',monospace;
+  font-size:.76rem;color:#7fb8f8;white-space:pre;overflow-x:auto;
+  margin-bottom:15px;line-height:1.7;
+}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{
+  display:flex;align-items:center;gap:11px;padding:12px 15px;
+  background:rgba(255,255,255,.025);border:1.5px solid rgba(255,255,255,.065);
+  border-radius:10px;cursor:pointer;color:#d4e3f8;
+  font-family:inherit;font-size:.85rem;font-weight:500;
+  text-align:left;transition:background .13s,border-color .13s;width:100%;
+}
+.opt:not([disabled]):hover{background:rgba(79,172,254,.07);border-color:rgba(79,172,254,.22)}
+.opt[disabled]{cursor:default}
+.opt.ok{background:rgba(34,197,94,.1);border-color:#22c55e;color:#86efac}
+.opt.ng{background:rgba(239,68,68,.1);border-color:#ef4444;color:#fca5a5}
+.opt.dm{opacity:.28}
+.opt-l{
+  min-width:24px;height:24px;border-radius:5px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.67rem;font-weight:800;flex-shrink:0;
+  background:rgba(255,255,255,.06);color:#3a5577;
+}
+.opt.ok .opt-l{background:rgba(34,197,94,.2);color:#22c55e}
+.opt.ng .opt-l{background:rgba(239,68,68,.2);color:#ef4444}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.expl{
+  margin-top:12px;padding:11px 14px;
+  background:rgba(79,172,254,.05);border:1px solid rgba(79,172,254,.1);
+  border-radius:9px;font-size:.79rem;color:#6888aa;line-height:1.67;display:none;
+  animation:fadeUp .28s ease;
+}
+.expl-ok{color:#22c55e;font-weight:700}
+.expl-ng{color:#ef4444;font-weight:700}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ld{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:46px 0;gap:13px}
+.sp{width:32px;height:32px;border:3px solid rgba(79,172,254,.14);border-top-color:#4facfe;border-radius:50%;animation:spin .65s linear infinite}
+.ld-t{font-size:.67rem;color:#273e5a;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+.nx-btn{
+  width:100%;padding:15px;background:linear-gradient(118deg,#4facfe,#00f2fe);
+  border:none;border-radius:12px;color:#030b16;
+  font-family:inherit;font-size:.86rem;font-weight:800;letter-spacing:1.5px;
+  cursor:pointer;box-shadow:0 3px 14px rgba(79,172,254,.2);
+  transition:transform .13s,box-shadow .13s;display:none;
+}
+.nx-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(79,172,254,.3)}
+/* END */
+.end{display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px;padding:40px 0}
+.end-ic{font-size:3.5rem}
+.end-ti{
+  font-size:2rem;font-weight:800;letter-spacing:-.5px;
+  background:linear-gradient(118deg,#4facfe,#00f2fe);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.end-sc{font-size:3rem;font-weight:800;color:#fbbf24;line-height:1}
+.end-sl{font-size:.6rem;color:#273e5a;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-top:5px}
+.st-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.st{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px 18px;min-width:90px}
+.st-v{font-size:1.3rem;font-weight:800;color:#4facfe}
+.st-l{font-size:.58rem;color:#273e5a;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:3px}
+.pa-btn{
+  padding:15px 42px;background:linear-gradient(118deg,#4facfe,#00f2fe);
+  border:none;border-radius:12px;color:#030b16;
+  font-family:inherit;font-size:.86rem;font-weight:800;letter-spacing:1.5px;
+  cursor:pointer;box-shadow:0 4px 18px rgba(79,172,254,.28);
+  transition:transform .14s,box-shadow .14s;
+}
+.pa-btn:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(79,172,254,.38)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<!-- ============================================================
+     QUESTION BANK  (AI-authored, embedded so the game runs
+     fully offline — no API key, no network request needed)
+     Each entry: {lang, diff, topic, question, code, options[], correct, explanation}
+     ============================================================ -->
+<script src="questions.js"></script>
+
+<script>
+const LANGS = [
+  {name:'Python',     em:'🐍'},
+  {name:'JavaScript', em:'💛'},
+  {name:'Java',       em:'☕'},
+  {name:'C++',        em:'⚡'},
+  {name:'HTML/CSS',   em:'🎨'},
+  {name:'SQL',        em:'🗄️'}
+];
+
+const TOPICS = {
+  'Python':     ['Variables & Types','Loops','Conditionals','Functions','Lists & Tuples','Dictionaries','OOP & Classes','Error Handling','File I/O','Modules & Imports','Comprehensions','Lambda & Map'],
+  'JavaScript': ['Variables & Scope','Data Types','Functions','Arrays','Objects','DOM Basics','Events','Promises & Async','ES6+ Features','Closures','OOP & Classes','Error Handling'],
+  'Java':       ['Variables & Types','Control Flow','Methods','Arrays','OOP & Classes','Interfaces','Collections','Exceptions','Generics','Strings','File I/O','Lambdas'],
+  'C++':        ['Variables & Types','Control Flow','Functions','Pointers','References','OOP & Classes','STL Containers','Templates','Memory Management','Exceptions','File I/O','Namespaces'],
+  'HTML/CSS':   ['HTML Structure','Semantic Tags','CSS Selectors','Box Model','Flexbox','Grid Layout','Positioning','Responsive Design','Animations','Forms','Pseudo-classes','CSS Variables'],
+  'SQL':        ['SELECT Basics','WHERE & Filters','JOINs','Aggregations','GROUP BY','Subqueries','INSERT & UPDATE','DELETE','Indexes','Views','Transactions','Stored Procedures']
+};
+
+const DIFFS = [
+  {name:'Beginner',     ic:'🌱',ds:'Syntax & basics'},
+  {name:'Intermediate', ic:'⚙️',ds:'Logic & patterns'},
+  {name:'Advanced',     ic:'🔥',ds:'Deep concepts'}
+];
+
+const TOTAL = 10;
+
+let G = {
+  lang:'Python', diff:'Beginner', topics:[],
+  q:null, loading:false, err:false,
+  sel:null, fb:null,
+  score:0, lives:3, streak:0, best:0,
+  qn:0, hits:0, used:[], pool:[],
+  recent:[],              // last few question texts, sent to AI to avoid repeats
+  aiAvailable:false       // detected at boot via /api/status
+};
+
+/* Ask the server whether an AI provider (and key) is configured.
+   If yes -> unlimited fresh questions. If no -> offline bank. */
+async function detectAI(){
+  try {
+    const r = await fetch('/api/status', {cache:'no-store'});
+    const j = await r.json();
+    G.aiAvailable = !!j.ai;
+  } catch(_) { G.aiAvailable = false; }
+}
+
+/* Request one freshly AI-generated question from our own backend.
+   Returns a question object, or null if anything goes wrong. */
+async function fetchAIQuestion(){
+  try {
+    const r = await fetch('/api/question', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        lang:G.lang, diff:G.diff, topics:G.topics, recent:G.recent
+      })
+    });
+    const j = await r.json();
+    if (j && j.ok && j.question) return j.question;
+    return null;
+  } catch(_) { return null; }
+}
+
+/* ── EVENT DELEGATION ── */
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-a]');
+  if (!el) return;
+  const a = el.dataset.a, v = el.dataset.v;
+  if      (a==='lang')        { G.lang=v; G.topics=[]; renderHome(); }
+  else if (a==='topic')       toggleTopic(v);
+  else if (a==='clearTopics') { G.topics=[]; renderTopics(); }
+  else if (a==='diff')        { G.diff=v; renderHome(); }
+  else if (a==='start')       startGame();
+  else if (a==='ans')         answer(parseInt(v,10));
+  else if (a==='next')        next();
+  else if (a==='home')        renderHome();
+});
+
+/* ── HELPERS ── */
+function h(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function $(id){ return document.getElementById(id); }
+function app(html){ $('app').innerHTML = html; }
+function loader(){ return '<div class="ld"><div class="sp"></div><div class="ld-t">Loading question…</div></div>'; }
+function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+/* ── RENDER TOPICS ── */
+function renderTopics(){
+  const el = $('topics-wrap');
+  if (!el) return;
+  const list = TOPICS[G.lang] || [];
+  const n = G.topics.length;
+  el.innerHTML = `<div class="topics-wrap">
+    <div class="sh">
+      Topics
+      ${n>0
+        ? `<span class="sh-badge">${n} selected</span><button class="clear-btn" data-a="clearTopics">clear</button>`
+        : `<span class="sh-hint">pick some or leave blank for all</span>`}
+    </div>
+    <div class="topic-grid">
+      ${list.map(t=>`<button class="topic-btn${G.topics.includes(t)?' on':''}" data-a="topic" data-v="${h(t)}">${h(t)}</button>`).join('')}
+    </div>
+  </div>`;
+}
+
+function toggleTopic(t){
+  const i = G.topics.indexOf(t);
+  if (i===-1) G.topics.push(t); else G.topics.splice(i,1);
+  renderTopics();
+}
+
+/* ── RENDER HOME ── */
+function renderHome(){
+  app(`<div class="home">
+    <div class="brand">
+      <div class="brand-name">CodeQuest</div>
+      <div class="brand-sub">Learn to Code by Playing</div>
+    </div>
+    <div>
+      <div class="sh">Choose a language</div>
+      <div class="lg-grid">
+        ${LANGS.map(l=>`<button class="lg-btn${G.lang===l.name?' on':''}" data-a="lang" data-v="${h(l.name)}">
+          <span class="lg-em">${l.em}</span><span class="lg-nm">${h(l.name)}</span>
+        </button>`).join('')}
+      </div>
+    </div>
+    <div id="topics-wrap"></div>
+    <div>
+      <div class="sh">Difficulty</div>
+      <div class="df-row">
+        ${DIFFS.map(d=>`<button class="df-btn${G.diff===d.name?' on':''}" data-a="diff" data-v="${h(d.name)}">
+          <span class="df-ic">${d.ic}</span>
+          <span class="df-nm">${h(d.name)}</span>
+          <span class="df-ds">${h(d.ds)}</span>
+        </button>`).join('')}
+      </div>
+    </div>
+    <div class="tip">
+      <b>🔥 Streak bonus</b> — 3+ correct in a row earns 20 pts per answer instead of 10.
+      &nbsp;&nbsp;<b>❤️ Lives</b> — you have 3. Lose them all and the quest ends.
+    </div>
+    <button class="go-btn" data-a="start">START QUEST →</button>
+  </div>`);
+  renderTopics();
+}
+
+/* ── RENDER GAME SHELL ── */
+function renderGameShell(){
+  const topicLabel = G.topics.length>0 ? ` · ${G.topics.length} topic${G.topics.length>1?'s':''}` : '';
+  app(`<div class="game">
+    <div class="tbar">
+      <div class="hts" id="hts">❤️❤️❤️</div>
+      <div class="pts" id="pts">0 pts</div>
+      <div class="stk" id="stk"></div>
+    </div>
+    <div>
+      <div class="prg-bar"><div class="prg-fill" id="pf"></div></div>
+      <div class="prg-lbl" id="pl">${h(G.lang)}${topicLabel} · ${h(G.diff)} · Q0/${TOTAL}</div>
+    </div>
+    <div class="card" id="card">${loader()}</div>
+    <button class="nx-btn" id="nx" data-a="next">NEXT QUESTION →</button>
+  </div>`);
+}
+
+/* ── RENDER END ── */
+function renderEnd(win){
+  app(`<div class="end">
+    <div class="end-ic">${win?'🏆':'💀'}</div>
+    <div class="end-ti">${win?'Quest Complete!':'Game Over'}</div>
+    <div>
+      <div class="end-sc">${G.score}</div>
+      <div class="end-sl">Points Earned</div>
+    </div>
+    <div class="st-row">
+      <div class="st"><div class="st-v">${G.hits}/${G.qn}</div><div class="st-l">Correct</div></div>
+      <div class="st"><div class="st-v">${G.best}🔥</div><div class="st-l">Best Streak</div></div>
+      <div class="st"><div class="st-v">${G.lives}❤️</div><div class="st-l">Lives Left</div></div>
+    </div>
+    <button class="pa-btn" data-a="home">PLAY AGAIN</button>
+  </div>`);
+}
+
+/* ── UPDATE HUD ── */
+function hud(){
+  const hts=$('hts'); if(hts) hts.textContent=[0,1,2].map(i=>i<G.lives?'❤️':'🖤').join('');
+  const pts=$('pts'); if(pts) pts.textContent=`${G.score} pts`;
+  const stk=$('stk'); if(stk){ if(G.streak>=2){ stk.textContent=`🔥 ${G.streak}× streak`; stk.style.display='block'; } else { stk.style.display='none'; } }
+  const pf=$('pf');   if(pf)  pf.style.width=`${Math.min(G.qn/TOTAL*100,100)}%`;
+  const pl=$('pl');   if(pl){ const tl=G.topics.length>0?` · ${G.topics.length} topic${G.topics.length>1?'s':''}`:''; pl.textContent=`${G.lang}${tl} · ${G.diff} · Q${G.qn}/${TOTAL}`; }
+}
+
+/* ── BUILD THE POOL FOR THIS QUEST ──
+   Filters the embedded bank by language + difficulty (+ topics if chosen),
+   then gracefully broadens if too few questions match so the game never stalls. */
+function buildPool(){
+  const bank = (window.QUESTION_BANK || []);
+  const byLang = bank.filter(q => q.lang === G.lang);
+
+  // strictest: lang + diff + selected topics
+  let pool = byLang.filter(q =>
+    q.diff === G.diff &&
+    (G.topics.length === 0 || G.topics.includes(q.topic))
+  );
+
+  // broaden 1: drop topic filter, keep lang + diff
+  if (pool.length < TOTAL) {
+    const extra = byLang.filter(q => q.diff === G.diff && !pool.includes(q));
+    pool = pool.concat(extra);
+  }
+  // broaden 2: any difficulty in this language
+  if (pool.length < TOTAL) {
+    const extra = byLang.filter(q => !pool.includes(q));
+    pool = pool.concat(extra);
+  }
+  // last resort: anything at all
+  if (pool.length === 0) pool = bank.slice();
+
+  return shuffle(pool);
+}
+
+/* Pick a question from the offline bank (used as fallback / when no AI). */
+function pickFromBank(){
+  if(!G.pool.length) G.pool = buildPool();            // refill if exhausted
+  let next = G.pool.find(q => !G.used.includes(q));
+  if(!next){ G.used = []; next = G.pool[0]; }          // everything seen → allow reuse
+  if(next){ G.pool = G.pool.filter(q => q !== next); G.used.push(next); }
+  return next || null;
+}
+
+/* Render the current question (G.q) into the card. */
+function renderQuestion(){
+  const card=$('card');
+  if(!card) return;
+  card.innerHTML=`<div class="q-inner">
+    <div class="qt">${h(G.q.question)}</div>
+    ${G.q.code && G.q.code.trim() ? `<div class="cb">${h(G.q.code)}</div>` : ''}
+    <div class="opts">
+      ${(G.q.options||[]).map((o,i)=>`
+        <button class="opt" data-a="ans" data-v="${i}">
+          <span class="opt-l">${h(o[0])}</span>
+          <span>${h(o.replace(/^[A-Da-d][).]\s*/,''))}</span>
+        </button>`).join('')}
+    </div>
+    <div class="expl" id="expl"></div>
+  </div>`;
+}
+
+/* ── LOAD NEXT QUESTION ──
+   Strategy: if the AI backend is available, ask it for a fresh, unlimited
+   question. If that fails for any reason, silently fall back to the offline
+   bank so the game never errors out. */
+async function loadQ(){
+  G.loading=true; G.err=false; G.q=null; G.sel=null; G.fb=null;
+  const card=$('card'), nx=$('nx');
+  if(card) card.innerHTML=loader();
+  if(nx)   nx.style.display='none';
+
+  let q = null;
+
+  // 1) Try unlimited AI questions when the server reports a key is set.
+  if(G.aiAvailable){
+    q = await fetchAIQuestion();
+  }
+
+  // 2) Fallback: offline bank (also the default when running with no server).
+  if(!q){
+    // brief pause only when we DIDN'T already wait on a network call
+    if(!G.aiAvailable) await new Promise(r=>setTimeout(r,300));
+    q = pickFromBank();
+  }
+
+  if(!q){ // truly nothing anywhere
+    G.err=true;
+    if(card) card.innerHTML=`<div class="ld"><div class="ld-t">No questions available.</div></div>`;
+    G.loading=false; return;
+  }
+
+  G.q = q;
+  G.qn++;
+  // remember recent question text so the AI avoids repeats
+  G.recent.push((q.question||'').slice(0,80));
+  if(G.recent.length>8) G.recent.shift();
+
+  hud();
+  renderQuestion();
+  G.loading=false;
+}
+
+/* ── HANDLE ANSWER ── */
+function answer(idx){
+  if(G.sel||G.loading||!G.q) return;
+  const opt=(G.q.options||[])[idx]; if(!opt) return;
+  const letter=opt[0].toUpperCase();
+  const correct=(G.q.correct||'').toUpperCase();
+  const isOk=letter===correct;
+  G.sel=letter;
+
+  if(isOk){
+    const ns=G.streak+1;
+    G.score += G.streak>=2 ? 20 : 10;
+    G.streak=ns; G.best=Math.max(G.best,ns); G.hits++; G.fb='ok';
+  } else {
+    G.lives=Math.max(0,G.lives-1); G.streak=0; G.fb='ng';
+  }
+  hud();
+
+  document.querySelectorAll('.opt').forEach((btn,i)=>{
+    btn.disabled=true;
+    const o=(G.q.options||[])[i]; if(!o) return;
+    const l=o[0].toUpperCase();
+    if(l===correct)      btn.className='opt ok';
+    else if(l===G.sel)   btn.className='opt ng';
+    else                 btn.className='opt dm';
+  });
+
+  setTimeout(()=>{
+    const expl=$('expl');
+    if(expl && G.q.explanation){
+      expl.innerHTML=`<span class="${G.fb==='ok'?'expl-ok':'expl-ng'}">${G.fb==='ok'?'✓ Correct! ':'✗ Incorrect. '}</span>${h(G.q.explanation)}`;
+      expl.style.display='block';
+    }
+    const nx=$('nx');
+    if(nx){ nx.textContent = (G.qn>=TOTAL || G.lives<=0) ? 'SEE RESULTS →' : 'NEXT QUESTION →'; nx.style.display='block'; }
+  },360);
+}
+
+/* ── NEXT / START ── */
+function next(){
+  if(G.lives<=0)  { renderEnd(false); return; }
+  if(G.qn>=TOTAL) { renderEnd(true);  return; }
+  loadQ();
+}
+
+function startGame(){
+  Object.assign(G,{score:0,lives:3,streak:0,best:0,qn:0,hits:0,used:[],recent:[],q:null,sel:null,fb:null,err:false});
+  G.pool = buildPool();
+  renderGameShell();
+  loadQ();
+}
+
+/* ── BOOT ── */
+renderHome();
+detectAI();   // figure out (in the background) if unlimited AI questions are on
+</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0812fe6ad282543',t:'MTc4MDg1MTM1NA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
