@@ -1,0 +1,12 @@
+{
+  "name": "codequest",
+  "version": "1.0.0",
+  "description": "CodeQuest — a coding quiz game with unlimited AI-generated questions.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
